@@ -1,5 +1,29 @@
 # golang training notes
 
+<!-- TOC -->
+
+- [golang training notes](#golang-training-notes)
+    - [Basics](#basics)
+        - [Variables](#variables)
+        - [Constants](#constants)
+        - [Types](#types)
+        - [Arrays and slices](#arrays-and-slices)
+        - [Maps](#maps)
+        - [Flow control and loops](#flow-control-and-loops)
+        - [Structs](#structs)
+        - [Pointers](#pointers)
+    - [Methods and interfaces](#methods-and-interfaces)
+        - [Methods](#methods)
+        - [Interfaces](#interfaces)
+    - [Goroutines](#goroutines)
+    - [Context](#context)
+    - [Tests](#tests)
+    - [gotour exercises](#gotour-exercises)
+
+<!-- /TOC -->
+
+---
+
 ## Basics
 
 ### Variables
@@ -388,3 +412,11 @@ if err := run(); err != nil {
     fmt.Println(err)
 }
 ```
+
+## Goroutines
+
+## Context
+
+## Tests
+
+## gotour exercises
