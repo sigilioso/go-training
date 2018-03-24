@@ -3,6 +3,7 @@
 <!-- TOC -->
 
 - [golang training notes](#golang-training-notes)
+    - [Resources](#resources)
     - [Basics](#basics)
         - [Variables](#variables)
         - [Constants](#constants)
@@ -15,14 +16,26 @@
     - [Methods and interfaces](#methods-and-interfaces)
         - [Methods](#methods)
         - [Interfaces](#interfaces)
+        - [Embedding](#embedding)
     - [Goroutines](#goroutines)
-    - [Context](#context)
+        - [Mutex](#mutex)
+        - [Channels](#channels)
+        - [Context](#context)
     - [Tests](#tests)
-    - [gotour exercises](#gotour-exercises)
+        - [Running tests](#running-tests)
+        - [Code coverage](#code-coverage)
+    - [Exercises / examples](#exercises--examples)
 
 <!-- /TOC -->
 
 ---
+
+## Resources
+
+* [A tour of go](https://tour.golang.org)
+* [The little go book](http://openmymind.net/The-Little-Go-Book/)
+* [How to write go code](https://golang.org/doc/code.html)
+* [Writting web applications](https://golang.org/doc/articles/wiki/)
 
 ## Basics
 
@@ -413,10 +426,252 @@ if err := run(); err != nil {
 }
 ```
 
+### Embedding
+
+```go
+// ReadWriter implementations must satisfy both Reader and Writer
+type ReadWriter interface {
+    Reader
+    Writer
+}
+
+// Server exposes all the methods that Logger has
+type Server struct {
+    Host string
+    Port int
+    *log.Logger
+}
+```
+
 ## Goroutines
 
-## Context
+Goroutines are light threads (not OS threads, but routines managed by Go). To start a new goroutine it is just needed to include `go` before a function call. Example: `go f(a)`.
+
+Also an anonymous function may be used:
+
+```go
+go func (a int) {
+    // do stuff
+}(42)
+```
+
+### Mutex
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// SafeCounter is safe to use concurrently.
+type SafeCounter struct {
+	v   map[string]int
+	mux sync.Mutex
+}
+
+// Inc increments the counter for the given key.
+func (c *SafeCounter) Inc(key string) {
+	c.mux.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	c.v[key]++
+	c.mux.Unlock()
+}
+
+// Value returns the current value of the counter for the given key.
+func (c *SafeCounter) Value(key string) int {
+	c.mux.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	defer c.mux.Unlock()
+	return c.v[key]
+}
+
+func main() {
+	c := SafeCounter{v: make(map[string]int)}
+	for i := 0; i < 1000; i++ {
+		go c.Inc("somekey")
+	}
+	time.Sleep(time.Second)
+	fmt.Println(c.Value("somekey"))
+}
+```
+
+The `sync` package also includes [RWMutex](https://golang.org/pkg/sync/#RWMutex) which allows to only lock read and/or write operations.
+
+### Channels
+
+Channels are concurrency-safe communication objects. See more info in the [channels section]((https://tour.golang.org/concurrency/2) of the tutorial.
+
+```go
+func sum(s []int, c chan int) {
+	sum := 0
+	for _, v := range s {
+		sum += v
+	}
+	c <- sum // send sum to channel
+}
+
+func main() {
+    s := []int{7, 2, 8, -9, 4, 8}
+    c := make(chan int)
+	go sum(s[:len(s)/2], c)
+	go sum(s[len(s)/2:], c)
+	x, y := <-c, <-c // receive from channel
+}
+```
+
+Buffered chanells have length (length can be tested with `cap` function)
+
+```go
+c := make(chan int, 2)
+c <- 1
+c <- 2
+// Will get an error if overfill the channel
+// c <- 3 // fatal error: all goroutines are asleep - deadlock
+```
+
+Sender can close channels to tell no more values are comming. Receivers can test if a channel is closed using the second parameter.
+
+Receiving from a closed channels returns the zero value inmediately.
+
+```go
+func fibonacci(n int, c chan int) {
+	x, y := 0, 1
+	for i := 0; i < n; i++ {
+		c <- x
+		x, y = y, x+y
+	}
+	close(c)
+}
+
+func main() {
+    c := make(chan int, 10)
+    go fibonnaci(cap(c), c)
+    for i := range c {
+        fmt.Println(i)
+    }
+}
+```
+
+`select` lets a goroutine wait on multiple communication operations. It blocks until one of the cases can run and choses ramdonly if multiple can run.
+
+```go
+func fibonacci(c, quit chan it) {
+    x, y := 0, 1
+    for {
+        select {
+        case c <- x:
+            x, y = y, x+y
+        case <- quit:
+            fmt.Println("I'm done!")
+            return
+        }
+    }
+}
+
+func main() {
+    c := make(chan int)
+    quit := make(chan int)
+    go func() {
+        for i := 0; i < 10; i++ {
+            fmt.Println( <- c)
+        }
+        quit <- 0
+    }()
+    fibonacci(c, quit)
+}
+```
+
+A default case in slect let us try a send/receive without blocking
+
+```go
+func main() {
+    tick := time.Tick(100 * time.Millisecond)
+    boom := time.After(500 * time.Millisencond)
+    for {
+        select {
+        case <- tick:
+            fmt.Println("tick.")
+        case <- boom:
+            fmt.Printl("BOOM!")
+            return
+        default:
+            fmt.Println(".")
+            time.Sleep(50 * time.Millisecond)
+        }
+    }
+}
+```
+
+### Context
+
+The `Context` type carries deadlines, cancelation signals and other request-scoped values across API boundaries and between processes. See:
+
+* [context package docs](https://golang.org/pkg/context/)
+* [Context as concurrency patter in go](https://blog.golang.org/context)
+
+TODO: link hamlet example
 
 ## Tests
 
-## gotour exercises
+Test files live next to the files containing the code that are testing:
+
+```
+foo.go
+foo_test.go
+```
+
+The naming is a required pattern in Go.
+
+Test (always included in `*_test.go`files) must be named `Test<name>(* testing.T)`.
+
+```go
+package main
+import "testing"
+func TestSimple(t *testing.T) {
+    if true {
+        t.Error("expected false, got true")
+    }
+}
+```
+
+`*testing.T`type has method available to control the tests flow. See [testing docs](https://golang.org/pkg/testing/).
+
+TODO: link tests example
+
+To avoid circular dependency imports go let's us create a "magic" testing package.
+
+```go
+// foo.go
+package foo
+
+// foo_test.go
+package foo_test
+```
+
+It is optional and is an exception to "one package per folder" requirement. It helps with circular dependencies but, as it is a new package, all rules about exporting names apply.
+
+### Running tests
+
+```bash
+go test <package-path> # run tests of package in path
+go test ./... # run all test in packages recursively
+go test -v . # run test in current package in verbose mode
+go test -run "Call" -v ./... # run all test maching the "Call" regular expression
+go test -race race_test.go # run race_test.go checkin race conditions
+```
+
+### Code coverage
+
+```bash
+# For all tests
+go test -coverprofile cover.out
+go tool cover -html=cover.out
+# For specific test
+go test -coverprofile cover.out -run TestUser_Validate
+go tool cover -html=cover.out
+```
+
+## Exercises / examples
