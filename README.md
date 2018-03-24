@@ -1,8 +1,8 @@
-# golang training notes
+# Golang training notes
 
 <!-- TOC -->
 
-- [golang training notes](#golang-training-notes)
+- [Golang training notes](#golang-training-notes)
     - [Resources](#resources)
     - [Basics](#basics)
         - [Variables](#variables)
@@ -639,7 +639,7 @@ func TestSimple(t *testing.T) {
 
 `*testing.T` type has method available to control the tests flow. See [testing docs](https://golang.org/pkg/testing/).
 
-**TODO:** link tests example
+See [text exercise](./src/calculate/)
 
 To avoid circular dependency imports go let's us create a "magic" testing package.
 
