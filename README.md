@@ -24,6 +24,7 @@
     - [Tests](#tests)
         - [Running tests](#running-tests)
         - [Code coverage](#code-coverage)
+        - [Example](#example)
     - [Exercises / examples](#exercises--examples)
 
 <!-- /TOC -->
@@ -641,7 +642,6 @@ func TestSimple(t *testing.T) {
 
 `*testing.T` type has method available to control the tests flow. See [testing docs](https://golang.org/pkg/testing/).
 
-See [text exercise](./src/calculate/)
 
 To avoid circular dependency imports go let's us create a "magic" testing package.
 
@@ -675,5 +675,9 @@ go tool cover -html=cover.out
 go test -coverprofile cover.out -run TestUser_Validate
 go tool cover -html=cover.out
 ```
+
+### Example
+
+See [tet exercise](./src/calculate/).
 
 ## Exercises / examples
