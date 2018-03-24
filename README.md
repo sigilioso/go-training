@@ -36,7 +36,8 @@
 * [The little go book](http://openmymind.net/The-Little-Go-Book/)
 * [How to write go code](https://golang.org/doc/code.html)
 * [Writting web applications](https://golang.org/doc/articles/wiki/)
-* [Go Code REview Comments](https://github.com/golang/go/wiki/CodeReviewComments)
+* [Effective Go](https://golang.org/doc/effective_go.html#introduction)
+* [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments)
 
 ## Basics
 
