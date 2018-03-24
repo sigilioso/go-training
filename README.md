@@ -612,7 +612,7 @@ The `Context` type carries deadlines, cancelation signals and other request-scop
 * [context package docs](https://golang.org/pkg/context/)
 * [Context as concurrency patter in go](https://blog.golang.org/context)
 
-TODO: link hamlet example
+**TODO:** link hamlet example
 
 ## Tests
 
@@ -637,9 +637,9 @@ func TestSimple(t *testing.T) {
 }
 ```
 
-`*testing.T`type has method available to control the tests flow. See [testing docs](https://golang.org/pkg/testing/).
+`*testing.T` type has method available to control the tests flow. See [testing docs](https://golang.org/pkg/testing/).
 
-TODO: link tests example
+**TODO:** link tests example
 
 To avoid circular dependency imports go let's us create a "magic" testing package.
 
