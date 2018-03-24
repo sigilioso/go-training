@@ -504,7 +504,7 @@ The `sync` package also includes [RWMutex](https://golang.org/pkg/sync/#RWMutex)
 
 ### Channels
 
-Channels are concurrency-safe communication objects. See more info in the [channels section]((https://tour.golang.org/concurrency/2) of the tutorial.
+Channels are concurrency-safe communication objects. See more info in the [channels section](https://tour.golang.org/concurrency/2) of the tutorial.
 
 ```go
 func sum(s []int, c chan int) {
