@@ -678,6 +678,6 @@ go tool cover -html=cover.out
 
 ### Example
 
-See [tet exercise](./src/calculate/).
+See [test exercise](./src/calculate/).
 
 ## Exercises / examples
