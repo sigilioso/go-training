@@ -245,6 +245,9 @@ var (
 	v3 = Vertex{}      // X:0 and Y:0
 	p  = &Vertex{1, 2} // has type *Vertex
 )
+
+// Copy a struct (or any other variable)
+copy := v1
 ```
 
 ### Pointers
