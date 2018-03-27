@@ -26,6 +26,8 @@
         - [Code coverage](#code-coverage)
         - [Example](#example)
     - [Exercises / examples](#exercises--examples)
+        - [Tour exercises](#tour-exercises)
+        - [Context exercise](#context-exercise)
 
 <!-- /TOC -->
 
@@ -681,3 +683,31 @@ go tool cover -html=cover.out
 See [test exercise](./src/calculate/).
 
 ## Exercises / examples
+
+### Tour exercises
+
+To be able to run some exercises it is needed to install the tour in the GOPATH
+
+```bash
+go get golang.org/x/tour/gotour
+````
+
+* [basics](./src/basics)
+* [methods](./src/methods)
+* [goroutines](./src/goroutines)
+
+### Context exercise
+
+> At <http://hamlet.gopherguides.com> you will find a text copy of the play Hamlet.
+
+> Write a program using contexts that searches each line of text from the play to search for a particular word. Examples are Hamlet, Mark, King etc...
+
+> The program must:
+
+> print out the line number the word was found, and the text of that line: `3545: QUEEN GERTRUDE O Hamlet, speak no more`
+> stop when it finds 50 occurrences of the word
+> stop after 5 seconds if it hasn't yet found 50 occurrences
+
+* [Context exercise solution](./src/context)
+
+
