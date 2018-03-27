@@ -620,7 +620,8 @@ The `Context` type carries deadlines, cancelation signals and other request-scop
 * [context package docs](https://golang.org/pkg/context/)
 * [Context as concurrency patter in go](https://blog.golang.org/context)
 
-**TODO:** link hamlet example
+See [Context exercise](#context-exercise).
+
 
 ## Tests
 
@@ -712,5 +713,4 @@ go get golang.org/x/tour/gotour
 > stop after 5 seconds if it hasn't yet found 50 occurrences
 
 * [Context exercise solution](./src/context)
-
 
