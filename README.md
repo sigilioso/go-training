@@ -703,11 +703,11 @@ go get golang.org/x/tour/gotour
 ### Context exercise
 
 > At <http://hamlet.gopherguides.com> you will find a text copy of the play Hamlet.
-
+>
 > Write a program using contexts that searches each line of text from the play to search for a particular word. Examples are Hamlet, Mark, King etc...
-
+>
 > The program must:
-
+>
 > print out the line number the word was found, and the text of that line: `3545: QUEEN GERTRUDE O Hamlet, speak no more`
 > stop when it finds 50 occurrences of the word
 > stop after 5 seconds if it hasn't yet found 50 occurrences
