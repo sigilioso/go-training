@@ -42,6 +42,7 @@
 * [Effective Go](https://golang.org/doc/effective_go.html#introduction)
 * [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments)
 * [Testing techniques](https://talks.golang.org/2014/testing.slide#1)
+* [Go Printing reference](https://golang.org/pkg/fmt/#hdr-Printing)
 
 ## Basics
 
