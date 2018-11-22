@@ -1,8 +1,8 @@
-# Golang training notes
+# Golang notes
 
 <!-- TOC -->
 
-- [Golang training notes](#golang-training-notes)
+- [Golang notes](#golang-notes)
     - [Resources](#resources)
     - [Basics](#basics)
         - [Variables](#variables)
